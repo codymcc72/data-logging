@@ -1,26 +1,29 @@
 import json
 
+# Assuming json_data contains your JSON data
+data = json.loads(json_data)
 
 # Initialize variables
 start_data = []
-with open('Appended.json', 'r') as file:
-    data = json.load(file)
+row_data = []
+capturing_start = True  # Flag to determine whether to capture 'start' or 'row' data
+
 # Access 'treatment_area' values
 for point in data.get('points', []):
     treatment_area_value = point.get('treatment_area')
 
-    if treatment_area_value is not None:
-        if not start_data and treatment_area_value == False:
-            # Found the first 'false' point, start capturing data
+    if capturing_start:
+        if treatment_area_value is not None and treatment_area_value is False:
             start_data.append(treatment_area_value)
+        elif start_data:
+            capturing_start = False
 
-        if start_data:
-            # Continue capturing treatment_area values until the first 'true' point
-            start_data.append(treatment_area_value)
+    else:
+        if treatment_area_value is not None and treatment_area_value is True:
+            row_data.append(treatment_area_value)
+        elif row_data:
+            break  # Stop capturing 'row' data when the next 'false' is encountered
 
-        if start_data and treatment_area_value == True:
-            # Found the first 'true' treatment area point, stop capturing data
-            break
-
-# Print the captured 'start' data
-print(start_data)
+# Print the captured 'start' data and 'row' data
+print("Start Data:", start_data)
+print("Row Data:", row_data)
