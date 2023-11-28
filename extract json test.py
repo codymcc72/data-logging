@@ -1,8 +1,10 @@
-data = json.loads(json_data)
+import json
+
 
 # Initialize variables
 start_data = []
-
+with open('Appended.json', 'r') as file:
+    data = json.load(file)
 # Access 'treatment_area' values
 for point in data.get('points', []):
     treatment_area_value = point.get('treatment_area')
