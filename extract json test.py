@@ -39,7 +39,7 @@ for point in data.get('points', []):
 # Access 'datum' information after the loop
 if datum_info:
     print("Datum Information:")
-    print(f"Latitude: {datum_info['latitude']}, Longitude: {datum_info['longitude']}, Altitude: {datum_info['altitude']}")
+    print(f"Latitude: {datum_info.get('latitude')}, Longitude: {datum_info.get('longitude')}, Altitude: {datum_info.get('altitude')}")
 
 # You can print or analyze the sections
 for section in treatment_sections:
