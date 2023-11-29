@@ -17,26 +17,30 @@ start_sections = []
 treatment_sections = []
 turn_sections = []
 
+# Initialize variables to store 'datum' information
+datum_info = None
+
 # Iterate through the points in the JSON map
 in_row = False
 row_start_point = None
 row_start_time = None
 
-for point in data['points']:
-    if point['datum']:
-        row_start_point = point
-        in_row = True
-        row_start_time = point['timestamp']
+for point in data.get('points', []):
+    datum_value = point.get('datum')
+    if datum_value:
+        datum_info = datum_value
 
-    if point['treatment_area']:
+    treatment_area_value = point.get('treatment_area')
+    if treatment_area_value:
         if in_row:
             treatment_sections.append(MapSection('row', row_start_point, point, point['timestamp'] - row_start_time))
             in_row = False
 
-    # Add similar logic for turns
-    # ...
+# Access 'datum' information after the loop
+if datum_info:
+    print("Datum Information:")
+    print(f"Latitude: {datum_info['latitude']}, Longitude: {datum_info['longitude']}, Altitude: {datum_info['altitude']}")
 
 # You can print or analyze the sections
 for section in treatment_sections:
     print(f"Type: {section.section_type}, Start Point: {section.start_point}, End Point: {section.end_point}, Duration: {section.duration}")
-
