@@ -39,3 +39,4 @@ for point in data['points']:
 # You can print or analyze the sections
 for section in treatment_sections:
     print(f"Type: {section.section_type}, Start Point: {section.start_point}, End Point: {section.end_point}, Duration: {section.duration}")
+
