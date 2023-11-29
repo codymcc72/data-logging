@@ -36,11 +36,13 @@ for point in data.get('points', []):
             treatment_sections.append(MapSection('row', row_start_point, point, point['timestamp'] - row_start_time))
             in_row = False
 
-# Access 'datum' information after the loop
+# Print 'datum' information if available
 if datum_info:
     print("Datum Information:")
     print(f"Latitude: {datum_info.get('latitude')}, Longitude: {datum_info.get('longitude')}, Altitude: {datum_info.get('altitude')}")
+else:
+    print("No 'datum' information found.")
 
-# You can print or analyze the sections
+# Print or analyze the sections
 for section in treatment_sections:
     print(f"Type: {section.section_type}, Start Point: {section.start_point}, End Point: {section.end_point}, Duration: {section.duration}")
