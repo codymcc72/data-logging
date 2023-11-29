@@ -1,0 +1,21 @@
+/tric_navigation/gps/head_data
+
+Example of message
+
+---
+header: 
+  seq: 64
+  stamp: 
+    secs: 1680556769
+    nsecs: 261901378
+  frame_id: ''
+status: 
+  status: 4
+  service: 0
+latitude: 34.8745325633
+longitude: 120.3887622233
+altitude: 183.028
+position_covariance: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+position_covariance_type: 0
+---
+
