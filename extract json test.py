@@ -1,34 +1,41 @@
 import json
 
-# Assuming json_data contains your JSON data
-data = json.loads(json_data)
 
-# Initialize variables
-all_data = []
-capturing_start = True  # Flag to determine whether to capture 'start' or 'row' data
+class MapSection:
+    def __init__(self, section_type, start_point, end_point, duration):
+        self.section_type = section_type
+        self.start_point = start_point
+        self.end_point = end_point
+        self.duration = duration
 
-# Access 'treatment_area' values for each set
-for point in data.get('points', []):
-    treatment_area_value = point.get('treatment_area')
+# Load JSON data
+with open('appended.json', 'r') as file:
+    data = json.load(file)
 
-    if capturing_start:
-        if treatment_area_value is not None and treatment_area_value is False:
-            start_data = [treatment_area_value]
-            capturing_start = False
-        elif not capturing_start:
-            if treatment_area_value is not None and treatment_area_value is True:
-                row_data = [treatment_area_value]
-                capturing_start = True
-                all_data.append({"start": start_data, "row": row_data})
-    else:
-        if treatment_area_value is not None and treatment_area_value is True:
-            row_data.append(treatment_area_value)
-        elif row_data:
-            capturing_start = True
-            all_data.append({"start": start_data, "row": row_data})
+# Initialize lists to store different sections
+start_sections = []
+treatment_sections = []
+turn_sections = []
 
-# Print all the captured data
-for idx, data_set in enumerate(all_data, start=1):
-    print(f"Set {idx} - Start Data:", data_set["start"])
-    print(f"Set {idx} - Row Data:", data_set["row"])
-    print()
+# Iterate through the points in the JSON map
+in_row = False
+row_start_point = None
+row_start_time = None
+
+for point in data['points']:
+    if point['datum']:
+        row_start_point = point
+        in_row = True
+        row_start_time = point['timestamp']
+
+    if point['treatment_area']:
+        if in_row:
+            treatment_sections.append(MapSection('row', row_start_point, point, point['timestamp'] - row_start_time))
+            in_row = False
+
+    # Add similar logic for turns
+    # ...
+
+# You can print or analyze the sections
+for section in treatment_sections:
+    print(f"Type: {section.section_type}, Start Point: {section.start_point}, End Point: {section.end_point}, Duration: {section.duration}")
